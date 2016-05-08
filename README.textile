@@ -1,0 +1,112 @@
+h1. Enki
+
+!https://travis-ci.org/xaviershay/enki.png?branch=master!:https://travis-ci.org/xaviershay/enki
+
+A Ruby on Rails blogging app for the fashionable developer.
+
+Preferences are for the masses. Any real coder knows the easiest and best way to customize something is by *hacking code*. Because you want your blog to be you, not bog standard install #4958 with 20 posts per page instead of 15. For this you need a *clean, simple, easy to understand code base* that stays out of your way. No liquid drops and templates hindering your path, no ugly PHP(Hypertext Preprocessor) stylings burning your eyeballs.
+
+h2. Quick Start
+
+<pre><code>  git clone git://github.com/xaviershay/enki.git enki
+  cd enki
+  git checkout -b myblog # Create a new work branch
+  bundle install         # Install all the required gems
+
+  cp config/database.example.yml config/database.yml
+  # Edit config/enki.yml and config/database.yml to taste
+
+  # Next step needs libxml2 and libxslt1 and their headers
+  # On Debian-based systems: apt-get install libxml2-dev libxslt1-dev
+  # On Mac OS X: no action required
+
+  rake secret # Paste output into place in config/initializers/secret_token.rb
+  rake db:migrate
+  rake            # Run tests
+  rails server    # Start the server
+  # Load http://localhost:3000/admin in your browser</code></pre>
+
+Or for bonus points, fork "Enki at github":https://github.com/xaviershay/enki/tree/master and clone that instead.
+
+h2. More info
+
+Enki is a compact, easily extendable base for your blog. It does this by being highly opinionated, for example:
+
+* Public facing views should adhere to standards (HTML5, Atom)
+* /yyyy/mm/dd/post-title is a good URL for your posts
+* Live comment preview should be provided by default
+* Google does search better than you or I
+* You don't need a plugin system when you've got decent source control
+* If you're not using something more than just a basic username/password, you're a chump
+* Hacking code is the easiest way to customize something
+
+h2. Setting up authentication
+
+Enki uses "OmniAuth":https://github.com/intridea/omniauth for authentication. By default Enki supports "Google OpenID Connect (OAuth 2.0 for Login)":https://developers.google.com/identity/protocols/OpenIDConnect via the "omniauth-google-oauth2":https://github.com/zquestz/omniauth-google-oauth2 strategy and OpenID 2.0 via the "omniauth-openid":https://github.com/intridea/omniauth-openid strategy. Should you wish to use a different form of authentication, you can implement any of the "available OmniAuth strategies":https://github.com/intridea/omniauth/wiki/List-of-Strategies, or write your own strategy.
+
+h3. Using Google OpenID Connect for authentication
+
+You will need a Google account, then:
+
+* Go to "https://console.developers.google.com":https://console.developers.google.com
+* Select (or create) your project
+* Click 'APIs & auth'
+* Make sure 'Contacts API' and 'Google+ API' are enabled
+* Go to the Consent Screen, and provide an 'Email address' and 'Product name'
+* Click on 'Credentials' under 'APIs & auth' and take note of your 'Client ID' and 'Client secret'
+* Wait 10 minutes for changes to take effect
+
+Create a new file called <code>google_oauth2.yml</code> in your <code>config</code> directory, add your 'Client ID' and 'Client secret' to the file thusly:
+
+<pre><code>GOOGLE_CLIENT_ID: ADD_YOUR_CLIENT_ID_HERE
+GOOGLE_CLIENT_SECRET: ADD_YOUR_CLIENT_SECRET_HERE
+</code></pre>
+
+If you are deploying to Heroku, you will need to set the above as <code>ENV</code> variables instead of using <code>google_oauth2.yml</code>. For example:
+
+<pre><code>$ heroku config:set GOOGLE_CLIENT_ID=my_client_id
+$ heroku config:set GOOGLE_CLIENT_SECRET=my_client_secret</code></pre>
+
+Open up <code>config/enki.yml</code> and make sure that the <code>google_oauth2_email</code> value matches the email address of your Google OpenID Connect identity.
+
+h3. Using OpenID 2.0 for authentication
+
+Open up <code>config/enki.yml</code> and make sure that one or more of your OpenID identity URLs are included in the <code>open_id</code> value(s).
+
+h2. Upgrading to Enki 2016
+
+As of January 2016, Enki no longer uses "acts_as_taggable_on_steroids":https://github.com/jviney/acts_as_taggable_on_steroids as it has been replaced with "ActsAsTaggableOn":https://github.com/mbleigh/acts-as-taggable-on. Commit "5e97796":https://github.com/xaviershay/enki/commit/5e977967cfeae6b98976b82b9bf260ee276be00f contains database migrations that update the existing tag-related tables to be compatible with ActsAsTaggableOn. This is a non-destructive migration so any existing tag records in your database should be unaffected. However, just to be safe you may wish to back up your database before running <code>bundle install</code> and <code>rake db:migrate</code> to upgrade your Enki install.
+
+h2. Upgrading to Enki 2015
+
+As of April 2015, Enki no longer uses the "open_id_authentication":https://github.com/Velir/open_id_authentication gem. Commit "ec85aef":https://github.com/xaviershay/enki/commit/ec85aef26ee82f17e8225be5cbe03ea459d1f112 contains database migrations that remove both tables used by open_id_authentication and add a new table to store OmniAuth response information. Should you wish to keep any data that you may have currently stored in either the open_id_authentication_nonces or open_id_authentication_associations tables, retrieve this information before you run <code>rake db:migrate</code> to upgrade your Enki install.
+
+h2. URL path prefix
+
+Enki can run your blog with a URL path prefix.  For example, you can run it at example.com/*blog* instead of blog.example.com.  You can do so with the RAILS_RELATIVE_URL_ROOT environment variable, set either before starting the server or in config/application.rb before Enki::Application.  Uncommenting this line in config/application.rb will enable this behavior in all environments:
+
+<pre><code>ENV['RAILS_RELATIVE_URL_ROOT'] = '/blog'</code></pre>
+
+h2. How it differs from Mephisto
+
+Mephisto is feature packed and quite customizable. It can however be daunting trying to find your way around the code, which isn’t so good if you’re trying to hack in your own features. Enki strips out a lot of the features that you probably don’t need (multiple authors and liquid templates, for example), and focuses on keeping a tight code base that is easy to comprehend and extend.
+
+h2. How it differs from SimpleLog
+
+Enki embodies much of the philosophy of SimpleLog, but does so in a style that is much more consistent with Rails best practices, making it easier to understand and hack the code.
+
+h2. Compatibility
+
+Uses Ruby 1.9.3 or newer and Rails 4. Runs on MySQL or Postgres. Works on Heroku.
+
+h2. Contributors, these guys rock
+
+<pre><code>git log | grep Author | sort | uniq</code></pre>
+
+If you want to help out, try tackling an "open issue":https://github.com/xaviershay/enki/issues. Please include specs for any fixes. Enki is by design feature light. Unless you feel very strongly your feature should be in core, add a link to your fork in the wiki instead.
+
+h2. License
+
+GPL(General Public License) - See LICENSE
+
+Admin design heavily inspired by "Habari":http://www.habariproject.org/en/

@@ -1,0 +1,158 @@
+$font-size-base: 16px;
+$line-height-base: 1.75;
+$font-size-h1: 30px;
+$font-size-h2: 24px;
+$font-size-h3: 18px;
+$font-size-h4: 16px;
+$font-size-h5: 16px;
+$navbar-default-color: #222222;
+$navbar-default-link-color: $navbar-default-color;
+// $navbar-default-link-active-color: #fff;
+// $navbar-default-link-hover-color: #fff;
+// $navbar-default-bg: #428BCA;
+// $border-radius-base: 0px;
+$navbar-default-link-hover-bg:#999999;
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+
+/*
+ * Blog name and description
+ */
+
+.blog-header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.blog-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 40px;
+  font-weight: normal;
+}
+.blog-description {
+  font-size: 20px;
+  color: #999;
+}
+
+
+/*
+ * Main column and sidebar layout
+ */
+
+// .blog-main {
+//   font-size: 16px;
+//   line-height: 1.8;
+// }
+
+/* Sidebar modules for boxing content */
+.sidebar-module {
+  padding: 15px;
+  margin: 0 -15px 15px;
+}
+.sidebar-module-inset {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+.sidebar-module-inset p:last-child,
+.sidebar-module-inset ul:last-child,
+.sidebar-module-inset ol:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Pagination */
+.pager {
+  margin-bottom: 60px;
+  text-align: left;
+}
+.pager > li > a {
+  width: 140px;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+/*
+ * Blog posts
+ */
+
+.blog-post {
+  margin-bottom: 60px;
+}
+// .blog-post-title {
+//   margin-bottom: 5px;
+//   // font-size: 40px;
+// }
+.blog-post-meta {
+  margin-bottom: 20px;
+  color: #999;
+}
+
+
+/*
+ * Footer
+ */
+
+.blog-footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e5e5e5;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+/*
+ * zyh added
+ */
+/* 为了解决bootstrap在ie下字体不好看问题 */
+body {
+  font-family: "Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+}
+#main {
+  padding-top: 70px;     
+}
+
+ #comments-start {
+  border-bottom: 1px solid #D3D3D3;
+  /*margin-bottom: 20px;*/
+ }
+ #comments{
+  margin-bottom: 30px;
+ }
+ .comment {
+  padding: 0 10px;
+  border-bottom: 1px dashed #D3D3D3;
+ }
+ .comment.even {
+  background-color: #F9F9F9; 
+ }
+ .comment-content{
+  margin-left: 20px;
+ }
+ .entry-body {
+  text-align: justify;
+  word-wrap: break-word;
+ }
+ .long-word {
+  word-break: break-all;
+ }
+ #site-stat {
+  display: none;
+ }
+ #search-bar {
+  margin-top: 4px;
+ }
+ .search-highlight {
+  color: red;
+ }
+/* for auchor position */
+:target{
+    padding-top: 55px;
+    margin-top: -55px;
+}

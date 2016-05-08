@@ -1,0 +1,17 @@
+<div class="blog-post">
+  <h1 class="blog-post-title"><%= link_to_post(post) %></h1>
+
+  <div class="entry-body">
+    <%= raw(post.body_html) %>
+  </div>
+  <p class="text-danger copy-right"><strong>文章未经特殊标明皆为本人原创，未经许可不得用于任何商业用途，转载请保持完整性并注明来源链接 <%= link_to_post(post, "《ITechLib》") %> </strong><p>
+  <div class="blog-post-meta">
+    <ul class="list-inline">
+      <li class="date">Posted on <%= format_post_date(post.published_at) if post.published? %></li>
+      <li class="comments"><%= link_to_post_comments post %></li>
+      <% unless post.tags.empty? -%>
+        <li class="tags">Tagged <%= linked_tag_list(post.tags) %></li>
+      <% end -%>
+    </ul>
+  </div>
+</div>
